@@ -48,6 +48,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use('/fonts', express.static(__dirname + '/fonts'));
 
 app.get('/', async (req, res) => {
     try {

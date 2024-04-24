@@ -3,11 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="https://www.stib-mivb.be/irj/go/km/docs/WEBSITE_RES/Webresources/Frontend/build/images/favicon.ico">
     <title><%= title %></title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        @font-face {
+            font-family: stibIcons;
+            font-weight: 400;
+            font-style: normal;
+            src: url(/fonts/stibIcons.woff) format("woff"), url(/fonts/stibIcons.ttf) format("truetype")
+        }
+
+        /* ========== Navbar ========== */
+        /* ----- Global ------ */
+        ul {
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 0;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #02538a;
+            /* Flex part */
+            display: flex;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+
+        li {
+            float: left;
+            transform: skewX(-5deg);
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none!important;
+            font-size: 1.2rem;
+        }
+
+        li a:hover {
+            background-color: #0077c1;
+            color: white;
+        }
+
+        li a.active {
+            background-color: #085d96;
+        }
+
+        /* ----- Éléments personalisés ------ */
+        .navigation_title {
+            transform: skewX(5deg);
+            margin: 0;
+        }
+
+        li:first-child {
+            background-color: white;
+        }
+
+        li:first-child a:hover {
+            background-color: white;
+        }
+
+        .header ul li>a span[class^=icon-] {
+            padding: 0 0.5rem;
+        }
+
+        .icon-plan:before {
+            font-family: stibIcons;
+            content:"";
+        }
+    </style>
 </head>
 <body>
+    <header class="header">
+        <ul>
+            <li>
+                <a href="/index.htm?l=fr">
+                    <img src="https://www.stib-mivb.be/irj/go/km/docs/WEBSITE_RES/Webresources/Frontend/build/images/logo.svg" alt="Homepage">
+                </a>
+            </li>
+            <li>
+                <a href="#home">
+                    <p class="navigation_title"><span class="icon-plan" area-hidden="true"></span>Home</p>
+                </a>
+            </li>
+            <li><a href="#news"><span class="icon-plan" area-hidden="true"></span>News</a></li>
+            <li><a href="#contact"><span class="icon-plan" area-hidden="true"></span>Contact</a></li>
+            <li><a class="active" href="#about"><span class="icon-plan" area-hidden="true"></span>About</a></li>
+        </ul>
+    </header>
     <h1><%= message %></h1>
     <p>Les données de l'API STIB ont été insérées dans la base de données MongoDB avec succès !</p>
 </body>
