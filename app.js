@@ -9,7 +9,8 @@ async function fetchDataFromSTIBAPI() {
                 'Authorization': 'Apikey 8351f946e8d149daf4ed2778963c30b4b9706c7944a1a9118bb023aa'
             }
         });
-        return response.data.records; // Les données de la réponse de l'API
+        console.log('Données récupérées depuis l\'API STIB :', response.data);
+        return response.data.results; // Les données de la réponse de l'API
     } catch (error) {
         console.error('Erreur lors de la récupération des données depuis l\'API STIB :', error);
         throw error;
@@ -28,7 +29,10 @@ async function insertDataIntoMongoDB(data) {
         const database = client.db('dev_app'); // Nom de la DB
         const collection = database.collection('real_time_stib'); // Nom de la collection (table)
 
-        await collection.insertMany(data.results); // Insertion des résultats de l'API STIB
+        // Vérifier si data est un tableau, sinon le convertir en un tableau contenant un seul élément
+        const dataArray = Array.isArray(data) ? data : [data];
+
+        await collection.insertMany(dataArray); // Insertion des données dans la collection MongoDB
         console.log('Données insérées avec succès dans MongoDB.');
     } catch (error) {
         console.error('Erreur lors de l\'insertion des données dans MongoDB :', error);
