@@ -4,13 +4,18 @@ const axios = require('axios');
 
 async function fetchDataFromSTIBAPI() {
     try {
-        const response = await axios.get('URL_de_l_api_STIB');
-        return response.data; // Les données de la réponse de l'API
+        const response = await axios.get('https://stibmivb.opendatasoft.com/api/explore/v2.1/catalog/datasets/vehicle-position-rt-production/records?limit=-1&lang=fr', {
+            headers: {
+                'Authorization': 'Apikey 8351f946e8d149daf4ed2778963c30b4b9706c7944a1a9118bb023aa'
+            }
+        });
+        return response.data.records; // Les données de la réponse de l'API
     } catch (error) {
         console.error('Erreur lors de la récupération des données depuis l\'API STIB :', error);
         throw error;
     }
 }
+
 
 /* ==================== [function] Insert data into DB ==================== */
 const { MongoClient } = require('mongodb');
@@ -23,7 +28,7 @@ async function insertDataIntoMongoDB(data) {
         const database = client.db('dev_app'); // Nom de la DB
         const collection = database.collection('real_time_stib'); // Nom de la collection (table)
 
-        await collection.insertOne(data);
+        await collection.insertMany(data.results); // Insertion des résultats de l'API STIB
         console.log('Données insérées avec succès dans MongoDB.');
     } catch (error) {
         console.error('Erreur lors de l\'insertion des données dans MongoDB :', error);
@@ -40,8 +45,15 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Page d\'accueil', message: 'Bienvenue sur votre serveur web !' });
+app.get('/', async (req, res) => {
+    try {
+        const dataFromSTIB = await fetchDataFromSTIBAPI();
+        await insertDataIntoMongoDB(dataFromSTIB);
+        
+        res.render('index', { title: 'Page d\'accueil', message: 'Bienvenue sur votre serveur web !' });
+    } catch (error) {
+        res.status(500).send('Une erreur est survenue.');
+    }
 });
 
 const port = process.env.PORT || 3000;
