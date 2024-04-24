@@ -37,8 +37,11 @@ async function insertDataIntoMongoDB(data) {
 const express = require('express');
 const app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
 app.get('/', (req, res) => {
-    res.send('Bienvenue sur votre serveur web !');
+    res.render('index', { title: 'Page d\'accueil', message: 'Bienvenue sur votre serveur web !' });
 });
 
 const port = process.env.PORT || 3000;
