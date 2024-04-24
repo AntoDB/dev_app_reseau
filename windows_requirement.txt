@@ -3,3 +3,4 @@ NodeJS : https://nodejs.org/en/download
 express : npm install express
 axios : npm install axios
 MongoDB : npm install mongodb
+ejs : npm install ejs
