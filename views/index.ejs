@@ -105,67 +105,24 @@
 
     <main class="container">
         <h1><%= message %></h1>
-        <p>Les données de l'API STIB ont été insérées dans la base de données MongoDB avec succès !</p>
+        <p>Les données de l'API STIB sur la position en temps réel des véhicules sont juste ici !</p>
 
         <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
-            </tbody>
-        </table>
-        
-        <table class="table">
             <thead class="thead-light">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Line</th>
+                    <th scope="col">Vehicle positions</th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+                <% mongoData.forEach((item, index) => { %>
+                    <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><%= item.lineid %></td>
+                        <td><%= item.vehiclepositions %></td>
+                    </tr>
+                <% }); %>
             </tbody>
         </table>
     </main>

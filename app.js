@@ -42,6 +42,28 @@ async function insertDataIntoMongoDB(data) {
     }
 }
 
+/* ==================== [function] Fetch data from MongoDB ==================== */
+async function getDataFromMongoDB() {
+    const client = new MongoClient('mongodb://localhost:27017/');
+
+    try {
+        await client.connect();
+        
+        const database = client.db('dev_app'); // Nom de la DB
+        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+
+        // Récupérer toutes les données de la collection
+        const data = await collection.find({}).toArray();
+
+        return data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données depuis MongoDB :', error);
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
 /* ==================== Web server ==================== */  
 const express = require('express');
 const app = express();
@@ -55,9 +77,18 @@ app.get('/', async (req, res) => {
         const dataFromSTIB = await fetchDataFromSTIBAPI();
         await insertDataIntoMongoDB(dataFromSTIB);
         
-        res.render('index', { title: 'Page d\'accueil', message: 'Bienvenue sur votre serveur web !' });
+        // Récupérer les données de MongoDB
+        const dataFromMongoDB = await getDataFromMongoDB();
+
+        res.render('index', { 
+            title: 'Page d\'accueil', 
+            message: 'Bienvenue sur l\'API home made de données de la STIB/MIVB !', 
+            mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
+        });
     } catch (error) {
         res.status(500).send('Une erreur est survenue.');
+        console.error('Erreur :', error);
+        throw error;
     }
 });
 
