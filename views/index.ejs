@@ -17,6 +17,10 @@
 
         /* ========== Navbar ========== */
         /* ----- Global ------ */
+        header {
+            background: linear-gradient(to right, white 18%, #02538a 18%);
+        }
+
         ul {
             position: -webkit-sticky; /* Safari */
             position: sticky;
@@ -25,7 +29,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #02538a;
+            /*background-color: #02538a;*/
             /* Flex part */
             display: flex;
             align-items: flex-end;
@@ -82,7 +86,7 @@
 </head>
 <body>
     <header class="header">
-        <ul>
+        <ul class="container">
             <li>
                 <a href="/index.htm?l=fr">
                     <img src="https://www.stib-mivb.be/irj/go/km/docs/WEBSITE_RES/Webresources/Frontend/build/images/logo.svg" alt="Homepage">
@@ -98,7 +102,72 @@
             <li><a class="active" href="#about"><span class="icon-plan" area-hidden="true"></span>About</a></li>
         </ul>
     </header>
-    <h1><%= message %></h1>
-    <p>Les données de l'API STIB ont été insérées dans la base de données MongoDB avec succès !</p>
+
+    <main class="container">
+        <h1><%= message %></h1>
+        <p>Les données de l'API STIB ont été insérées dans la base de données MongoDB avec succès !</p>
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>
