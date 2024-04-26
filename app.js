@@ -86,8 +86,33 @@ staticRouter.get('/', async (req, res) => {
 
         res.render('index', { 
             title: 'Home',
-            subtitle: 'Select the table to be displayed',
-            message: 'Bienvenue sur l\'API home made de données de la STIB/MIVB !', 
+            subtitle: 'Select the data table to be displayed', 
+            message: 'Choose which service you want to use!',
+            button_1: 'See vehicle positions in real time',
+            button_2: 'See the waiting time at each station for each line in real time',
+            mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
+        });
+    } catch (error) {
+        res.status(500).send('Une erreur est survenue.');
+        console.error('Erreur :', error);
+        throw error;
+    }
+});
+
+staticRouter.get('/fr/', async (req, res) => {
+    try {
+        const dataFromSTIB = await fetchDataFromSTIBAPI();
+        await insertDataIntoMongoDB(dataFromSTIB);
+        
+        // Récupérer les données de MongoDB
+        const dataFromMongoDB = await getDataFromMongoDB();
+
+        res.render('index', { 
+            title: 'Accueil',
+            subtitle: 'Sélectionner le tableau de données à afficher',
+            message: 'Choisissez quel service vous voulez utiliser !',
+            button_1: 'Voir les positions des véhicules en temps réel',
+            button_2: 'Voir le temps d\'attente à chaque station pour chaque ligne en temps réel',
             mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
         });
     } catch (error) {
@@ -109,6 +134,27 @@ staticRouter.get('/vehicle_positions', async (req, res) => {
             title: 'Vehicle position',
             subtitle: 'Real Time',
             description: 'STIB API data on the real-time position of vehicles.', 
+            mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
+        });
+    } catch (error) {
+        res.status(500).send('Une erreur est survenue.');
+        console.error('Erreur :', error);
+        throw error;
+    }
+});
+
+staticRouter.get('/fr/vehicle_positions', async (req, res) => {
+    try {
+        const dataFromSTIB = await fetchDataFromSTIBAPI();
+        await insertDataIntoMongoDB(dataFromSTIB);
+        
+        // Récupérer les données de MongoDB
+        const dataFromMongoDB = await getDataFromMongoDB();
+
+        res.render('vehicle_positions', { 
+            title: 'Position des véhicules',
+            subtitle: 'Temps Réel',
+            description: 'Les données de l\'API STIB sur la position en temps réel des véhicules.', 
             mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
         });
     } catch (error) {

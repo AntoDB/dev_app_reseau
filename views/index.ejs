@@ -19,26 +19,10 @@
     </div>
 
     <main class="container">
-        <p>Les données de l'API STIB sur la position en temps réel des véhicules sont juste ici !</p>
+        <p><%= message %></p>
 
-        <table class="table table-hover">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Line</th>
-                    <th scope="col">Vehicle positions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% mongoData.forEach((item, index) => { %>
-                    <tr>
-                        <th scope="row"><%= index + 1 %></th>
-                        <td><%= item.lineid %></td>
-                        <td><%= item.vehiclepositions %></td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
+        <button type="button" class="btn btn-lg btn-block"><%= button_1 %></button>
+        <button type="button" class="btn btn-lg btn-block"><%= button_2 %></button>
     </main>
 </body>
 </html>
