@@ -72,7 +72,10 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.use('/fonts', express.static(__dirname + '/fonts'));
 
-app.get('/', async (req, res) => {
+// Créer un routeur pour les pages statiques
+const staticRouter = express.Router();
+
+staticRouter.get('/', async (req, res) => {
     try {
         const dataFromSTIB = await fetchDataFromSTIBAPI();
         await insertDataIntoMongoDB(dataFromSTIB);
@@ -92,6 +95,30 @@ app.get('/', async (req, res) => {
         throw error;
     }
 });
+
+staticRouter.get('/vehicle_positions', async (req, res) => {
+    try {
+        const dataFromSTIB = await fetchDataFromSTIBAPI();
+        await insertDataIntoMongoDB(dataFromSTIB);
+        
+        // Récupérer les données de MongoDB
+        const dataFromMongoDB = await getDataFromMongoDB();
+
+        res.render('index', { 
+            title: 'Vehicle position',
+            subtitle: 'Real Time',
+            message: 'Bienvenue sur l\'API home made de données de la STIB/MIVB !', 
+            mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
+        });
+    } catch (error) {
+        res.status(500).send('Une erreur est survenue.');
+        console.error('Erreur :', error);
+        throw error;
+    }
+});
+
+// Utiliser le routeur pour les pages statiques
+app.use('/', staticRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
