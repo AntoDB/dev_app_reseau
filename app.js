@@ -81,7 +81,8 @@ app.get('/', async (req, res) => {
         const dataFromMongoDB = await getDataFromMongoDB();
 
         res.render('index', { 
-            title: 'Page d\'accueil', 
+            title: 'Home',
+            subtitle: 'Select the table to be displayed',
             message: 'Bienvenue sur l\'API home made de données de la STIB/MIVB !', 
             mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
         });

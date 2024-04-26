@@ -15,10 +15,38 @@
             src: url(/fonts/stibIcons.woff) format("woff"), url(/fonts/stibIcons.ttf) format("truetype")
         }
 
+        @font-face {
+            font-family: Brusseline;
+            font-weight: 400;
+            font-style: normal;
+            src: url(/fonts/brusseline-webfont.woff) format("woff"), url(/fonts/brusseline-webfont.ttf) format("truetype")
+        }
+
+        h1 {
+            margin: 0 0 .2em;
+            font-size: 3em;
+            color: #d62027;
+            font-family: TradeGothic, Brusseline, Arial, Helvetica, sans-serif;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin: 0 0 .2em;
+            font-size: 1.5em;
+            color: #0077c1;
+            font-family: TradeGothic, Brusseline, Arial, Helvetica, sans-serif;
+            text-transform: uppercase;
+        }
+
+        h2:before {
+            font-family: stibIcons;
+            content: "";
+        }
+
         /* ========== Navbar ========== */
         /* ----- Global ------ */
         header {
-            background: linear-gradient(to right, white 18%, #02538a 18%);
+            background: linear-gradient(to right, white 22%, #02538a 22%);
         }
 
         ul {
@@ -51,17 +79,17 @@
             font-size: 1.2rem;
         }
 
+        li a.active {
+            background-color: #085d96;
+        }
+
         li a:hover {
             background-color: #0077c1;
             color: white;
         }
 
-        li a.active {
-            background-color: #085d96;
-        }
-
         /* ----- Éléments personalisés ------ */
-        .navigation_title {
+        .navigation_title, .header img {
             transform: skewX(5deg);
             margin: 0;
         }
@@ -82,32 +110,88 @@
             font-family: stibIcons;
             content:"";
         }
+
+        /* ========== Title division ========== */
+        .title_division {
+            position: relative;
+            padding-bottom: 50px;
+        }
+        
+        .title_division img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .title_division h1 {
+            position: absolute;
+            top: 34%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+        }
+
+        .title_division h2 {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+        }
+
+        /* ========== Table ========== */
+        .table .thead-light th {
+            color: #495057;
+            background-color: #f0f0f0;
+            border-color: #e8e8e8;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0,0,0,.02);
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <ul class="container">
             <li>
-                <a href="/index.htm?l=fr">
+                <a href="/">
                     <img src="https://www.stib-mivb.be/irj/go/km/docs/WEBSITE_RES/Webresources/Frontend/build/images/logo.svg" alt="Homepage">
                 </a>
             </li>
             <li>
-                <a href="#home">
+                <a href="/" class="active">
                     <p class="navigation_title"><span class="icon-plan" area-hidden="true"></span>Home</p>
                 </a>
             </li>
-            <li><a href="#news"><span class="icon-plan" area-hidden="true"></span>News</a></li>
-            <li><a href="#contact"><span class="icon-plan" area-hidden="true"></span>Contact</a></li>
-            <li><a class="active" href="#about"><span class="icon-plan" area-hidden="true"></span>About</a></li>
+            <li>
+                <a href="/">
+                    <p class="navigation_title"><span class="icon-plan" area-hidden="true"></span>Vehicle position</p>
+                </a>
+            </li>
+            <li>
+                <a href="/">
+                    <p class="navigation_title"><span class="icon-plan" area-hidden="true"></span>Waiting time</p>
+                </a>
+            </li>
+            <li>
+                <a href="/">
+                    <p class="navigation_title"><span class="icon-plan" area-hidden="true"></span>Connect</p>
+                </a>
+            </li>
         </ul>
     </header>
 
+    <div class="title_division">
+        <img src="https://www.stib-mivb.be/irj/go/km/docs/WEBSITE_RES/Webresources/Frontend/build/images/pattern-white.png">
+        <h1 class="container"><%= title %></h1>
+        <h2 class="container"><%= subtitle %></h2>
+    </div>
+
     <main class="container">
-        <h1><%= message %></h1>
         <p>Les données de l'API STIB sur la position en temps réel des véhicules sont juste ici !</p>
 
-        <table class="table">
+        <table class="table table-hover">
             <thead class="thead-light">
                 <tr>
                     <th scope="col">#</th>
