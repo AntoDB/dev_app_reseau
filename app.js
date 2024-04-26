@@ -71,6 +71,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.use('/fonts', express.static(__dirname + '/fonts'));
+app.use('/css', express.static(__dirname + '/css'));
 
 // Créer un routeur pour les pages statiques
 const staticRouter = express.Router();
@@ -104,10 +105,10 @@ staticRouter.get('/vehicle_positions', async (req, res) => {
         // Récupérer les données de MongoDB
         const dataFromMongoDB = await getDataFromMongoDB();
 
-        res.render('index', { 
+        res.render('vehicle_positions', { 
             title: 'Vehicle position',
             subtitle: 'Real Time',
-            message: 'Bienvenue sur l\'API home made de données de la STIB/MIVB !', 
+            description: 'STIB API data on the real-time position of vehicles.', 
             mongoData: dataFromMongoDB // Transmettre les données à votre template EJS
         });
     } catch (error) {
