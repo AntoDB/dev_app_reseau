@@ -42,6 +42,28 @@ async function insertDataIntoMongoDB(data) {
     }
 }
 
+/* ==================== [function] Delete all data from MongoDB ==================== */
+async function clearDatabase() {
+    const client = new MongoClient('mongodb://localhost:27017/');
+
+    try {
+        await client.connect();
+        const database = client.db('dev_app'); // Nom de la DB
+        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+
+        // Supprimer tous les documents de la collection
+        await collection.deleteMany({});
+        
+        console.log('La base de données MongoDB a été vidée avec succès.');
+    } catch (error) {
+        console.error('Erreur lors de la suppression des documents dans MongoDB :', error);
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+
 /* ==================== [function] Fetch data from MongoDB ==================== */
 async function getDataFromMongoDB() {
     const client = new MongoClient('mongodb://localhost:27017/');
@@ -110,9 +132,9 @@ app.get('/:lang', (req, res) => {
 
 app.get('/:lang/vehicle_positions', async (req, res) => {
     try {
-        //const lang = req.params.lang; // Récupérer la langue à partir de req.params.lang
+        clearDatabase() // Flush la DB avant de réinsérer
         const dataFromSTIB = await fetchDataFromSTIBAPI();
-        await insertDataIntoMongoDB(dataFromSTIB);
+        await insertDataIntoMongoDB(dataFromSTIB); // Insère les données dans la DB
         
         // Récupérer les données de MongoDB
         const dataFromMongoDB = await getDataFromMongoDB();
