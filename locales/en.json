@@ -1,0 +1,10 @@
+{
+    "title": "Home",
+    "subtitle": "Select the data table to be displayed",
+    "message": "Choose which service you want to use!",
+    "button_1": "See vehicle positions in real time",
+    "button_2": "See the waiting time at each station for each line in real time",
+    "vehicle_positions_title": "Vehicle position",
+    "vehicle_positions_subtitle": "Real Time",
+    "vehicle_positions_description": "STIB API data on the real-time position of vehicles."
+}
