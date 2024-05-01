@@ -4,4 +4,3 @@ express : npm install express
 axios : npm install axios
 MongoDB : npm install mongodb
 ejs : npm install ejs
-i18n (language module) : npm install i18n --save
