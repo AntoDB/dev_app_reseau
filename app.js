@@ -74,6 +74,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use('/fonts', express.static(__dirname + '/fonts'));
 app.use('/css', express.static(__dirname + '/css'));
+app.use('/js', express.static(__dirname + '/js'));
 
 // Middleware pour le multilinguisme
 app.use((req, res, next) => {

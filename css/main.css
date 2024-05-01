@@ -71,10 +71,11 @@ li a {
     padding: 14px 16px;
     text-decoration: none!important;
     font-size: 1.2rem;
+    transition: background-color 0.2s;
 }
 
 li a.active {
-    background-color: #085d96;
+    background-color: #0966a5;
 }
 
 li a:hover {
