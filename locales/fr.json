@@ -1,0 +1,10 @@
+{
+    "title": "Accueil",
+    "subtitle": "Sélectionner le tableau de données à afficher",
+    "message": "Choisissez quel service vous voulez utiliser !",
+    "button_1": "Voir les positions des véhicules en temps réel",
+    "button_2": "Voir le temps d'attente à chaque station pour chaque ligne en temps réel",
+    "vehicle_positions_title": "Position des véhicules",
+    "vehicle_positions_subtitle": "Temps Réel",
+    "vehicle_positions_description": "Les données de l'API STIB sur la position en temps réel des véhicules."
+}
