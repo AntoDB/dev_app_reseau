@@ -134,7 +134,23 @@ li:first-child a:hover {
     width: 100%;
 }
 
+/* ========== [Home] Button ========== */
+main a button {
+    background-color: #ededed;
+    margin-bottom: 2rem;
+}
+main a:hover {
+    text-decoration: none;
+}
+main a:hover button {
+    background-color: #e6e6e6;
+}
+
 /* ========== Table ========== */
+.table thead th {
+    vertical-align: middle;
+}
+
 .table .thead-light th {
     color: #495057;
     background-color: #f0f0f0;
@@ -143,4 +159,57 @@ li:first-child a:hover {
 
 .table-hover tbody tr:hover {
     background-color: rgba(0,0,0,.02);
+}
+
+/* ========== Footer styles ========== */
+footer {
+    background-color: #02538a;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 5rem;
+}
+
+/* Social media icons styles (customize as needed) */
+.socials {
+    font-size: 24px;
+}
+
+/* Social media icons styles (FontAwesome icons) */
+.social {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none!important;
+    transition: color 0.3s ease; /* Add transition for color change */
+}
+
+.social.youtube:hover {
+    color: #ff0000; /* Red color on hover for YouTube */
+}
+.social.instagram:hover {
+    color: #c13584; /* Customize the color for Instagram icon on hover */
+}
+.social.discord:hover {
+    color: #5865f2; /* Puple color on hover for Discord */
+}
+.social.facebook:hover {
+    color: #0866ff; /* Blue color on hover for Facebook */
+}
+.social.linkedin:hover {
+    color: #0a66c2; /* Blue color on hover for Linkedin */
+}
+.social.x-twitter:hover, .social.tiktok:hover {
+    color: black; /* Blue color on hover for X (ex Twitter) */
+}
+
+footer a {
+    transition: color ease .2s;
+    color: white;
+}
+footer a:hover {
+    text-decoration: none;
+    color: var(--gray);
 }

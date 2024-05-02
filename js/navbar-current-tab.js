@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Définir quel class d'élément de la barre de navigation est à chercher
     var tab_name;
-    if (pageTitle.toLowerCase() === "position des véhicules" || pageTitle.toLowerCase() === "Vehicle positions") {tab_name = 'vehicle_positions';}
+    if (pageTitle.toLowerCase() === "position des véhicules" || pageTitle.toLowerCase() === "vehicle positions") {tab_name = 'vehicle_positions';}
     else {tab_name = 'home';}
 
     // Rechercher l'élément correspondant dans la barre de navigation et lui ajouter la classe active

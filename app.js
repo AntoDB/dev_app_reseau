@@ -29,8 +29,14 @@ async function insertDataIntoMongoDB(data) {
         const database = client.db('dev_app'); // Nom de la DB
         const collection = database.collection('real_time_stib'); // Nom de la collection (table)
 
+        const dataArray = data.map(item => {
+            const { lineid, vehiclepositions } = item;
+            const vehiclePositionsArray = JSON.parse(vehiclepositions);
+            return vehiclePositionsArray.map(position => ({ lineid, ...position }));
+        }).flat();
+
         // Vérifier si data est un tableau, sinon le convertir en un tableau contenant un seul élément
-        const dataArray = Array.isArray(data) ? data : [data];
+        //dataArray = Array.isArray(data) ? data : [data];
 
         await collection.insertMany(dataArray); // Insertion des données dans la collection MongoDB
         console.log('Données insérées avec succès dans MongoDB.');
