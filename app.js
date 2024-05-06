@@ -156,6 +156,55 @@ app.get('/:lang/vehicle_positions', async (req, res) => {
     }
 });
 
+// Ajout des routes pour l'API REST
+// Route pour récupérer toutes les données
+app.get('/api/data', async (req, res) => {
+    try {
+        const dataFromMongoDB = await getDataFromMongoDB();
+        res.json(dataFromMongoDB);
+    } catch (error) {
+        res.status(500).json({ error: 'Une erreur est survenue.' });
+        console.error('Erreur :', error);
+    }
+});
+
+// Route pour créer de nouvelles données
+app.post('/api/data', async (req, res) => {
+    try {
+        const newData = req.body;
+        await insertDataIntoMongoDB(newData);
+        res.status(201).json({ message: 'Données créées avec succès.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Une erreur est survenue.' });
+        console.error('Erreur :', error);
+    }
+});
+
+// Route pour mettre à jour des données existantes
+app.put('/api/data/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const newData = req.body;
+        await updateDataInMongoDB(id, newData);
+        res.json({ message: `Données avec l'identifiant ${id} mises à jour avec succès.` });
+    } catch (error) {
+        res.status(500).json({ error: 'Une erreur est survenue.' });
+        console.error('Erreur :', error);
+    }
+});
+
+// Route pour supprimer des données existantes
+app.delete('/api/data/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        await deleteDataFromMongoDB(id);
+        res.json({ message: `Données avec l'identifiant ${id} supprimées avec succès.` });
+    } catch (error) {
+        res.status(500).json({ error: 'Une erreur est survenue.' });
+        console.error('Erreur :', error);
+    }
+});
+
 // Démarrage du serveur
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
