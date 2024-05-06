@@ -17,10 +17,10 @@ async function fetchDataFromSTIBAPI() {
     }
 }
 
-
-/* ==================== [function] Insert data into DB ==================== */
 const { MongoClient } = require('mongodb');
 
+/* ==================== [function] Insert data into DB ==================== */
+// Insert tout ce qui lui est donné
 async function insertDataIntoMongoDB(data) {
     const client = new MongoClient('mongodb://localhost:27017/'); // URI (serv + user + login) de connexion MongoDB -> https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connect/
 
@@ -49,6 +49,7 @@ async function insertDataIntoMongoDB(data) {
 }
 
 /* ==================== [function] Delete all data from MongoDB ==================== */
+// Supprime TOUTES les données (drop)
 async function clearDatabase() {
     const client = new MongoClient('mongodb://localhost:27017/');
 
@@ -71,6 +72,7 @@ async function clearDatabase() {
 
 
 /* ==================== [function] Fetch data from MongoDB ==================== */
+// Récupère TOUTES les données
 async function getDataFromMongoDB() {
     const client = new MongoClient('mongodb://localhost:27017/');
 
@@ -86,6 +88,51 @@ async function getDataFromMongoDB() {
         return data;
     } catch (error) {
         console.error('Erreur lors de la récupération des données depuis MongoDB :', error);
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+/* ==================== [function] Update data in MongoDB ==================== */
+// Mise à jour de LA valeur uniquement spécifié par l'ID
+async function updateDataInMongoDB(id, newData) {
+    const client = new MongoClient('mongodb://localhost:27017/');
+
+    try {
+        await client.connect();
+        const database = client.db('dev_app'); // Nom de la DB
+        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+
+        await collection.updateOne(
+            { _id: ObjectId(id) }, // Critère de recherche pour l'élément à mettre à jour
+            { $set: newData } // Nouvelles données à mettre à jour
+        );
+
+        console.log(`Données avec l'identifiant ${id} mises à jour avec succès.`);
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour des données dans MongoDB :', error);
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+/* ==================== [function] Delete data from MongoDB ==================== */
+// Delete de LA valeur uniquement spécifié par l'ID
+async function deleteDataFromMongoDB(id) {
+    const client = new MongoClient('mongodb://localhost:27017/');
+
+    try {
+        await client.connect();
+        const database = client.db('dev_app'); // Nom de la DB
+        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+
+        await collection.deleteOne({ _id: ObjectId(id) });
+
+        console.log(`Données avec l'identifiant ${id} supprimées avec succès.`);
+    } catch (error) {
+        console.error('Erreur lors de la suppression des données dans MongoDB :', error);
         throw error;
     } finally {
         await client.close();
