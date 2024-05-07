@@ -48,29 +48,6 @@ async function insertDataIntoMongoDB(data) {
     }
 }
 
-/* ==================== [function] Delete all data from MongoDB ==================== */
-// Supprime TOUTES les données (drop)
-async function clearDatabase() {
-    const client = new MongoClient('mongodb://localhost:27017/');
-
-    try {
-        await client.connect();
-        const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
-
-        // Supprimer tous les documents de la collection
-        await collection.deleteMany({});
-        
-        console.log('La base de données MongoDB a été vidée avec succès.');
-    } catch (error) {
-        console.error('Erreur lors de la suppression des documents dans MongoDB :', error);
-        throw error;
-    } finally {
-        await client.close();
-    }
-}
-
-
 /* ==================== [function] Fetch data from MongoDB ==================== */
 // Récupère TOUTES les données
 async function getDataFromMongoDB() {
@@ -133,6 +110,28 @@ async function deleteDataFromMongoDB(id) {
         console.log(`Données avec l'identifiant ${id} supprimées avec succès.`);
     } catch (error) {
         console.error('Erreur lors de la suppression des données dans MongoDB :', error);
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+/* ==================== [function] Delete all data from MongoDB ==================== */
+// Supprime TOUTES les données (drop)
+async function clearDatabase() {
+    const client = new MongoClient('mongodb://localhost:27017/');
+
+    try {
+        await client.connect();
+        const database = client.db('dev_app'); // Nom de la DB
+        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+
+        // Supprimer tous les documents de la collection
+        await collection.deleteMany({});
+        
+        console.log('La base de données MongoDB a été vidée avec succès.');
+    } catch (error) {
+        console.error('Erreur lors de la suppression des documents dans MongoDB :', error);
         throw error;
     } finally {
         await client.close();
