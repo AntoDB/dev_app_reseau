@@ -17,7 +17,7 @@ async function fetchDataFromSTIBAPI() {
     }
 }
 
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 /* ==================== [function] Insert data into DB ==================== */
 // Insert tout ce qui lui est donné
@@ -82,7 +82,7 @@ async function updateDataInMongoDB(id, newData) {
         const collection = database.collection('real_time_stib'); // Nom de la collection (table)
 
         await collection.updateOne(
-            { _id: ObjectId(id) }, // Critère de recherche pour l'élément à mettre à jour
+            { _id: new ObjectId(id) }, // Critère de recherche pour l'élément à mettre à jour
             { $set: newData } // Nouvelles données à mettre à jour
         );
 
