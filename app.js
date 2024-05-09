@@ -72,6 +72,23 @@ async function getDataFromMongoDB() {
     }
 }
 
+// Fonction pour récupérer une donnée par son ID depuis MongoDB
+async function getDataByIdFromMongoDB(id) {
+    const client = new MongoClient('mongodb://localhost:27017/');
+    try {
+        await client.connect();
+        const database = client.db('dev_app');
+        const collection = database.collection('real_time_stib');
+        const data = await collection.findOne({ _id: new ObjectId(id) });
+        return data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données depuis MongoDB :', error);
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
 /* ==================== [function] Update data in MongoDB ==================== */
 // Mise à jour de LA valeur uniquement spécifié par l'ID
 async function updateDataInMongoDB(id, newData) {
@@ -213,6 +230,21 @@ app.get('/api/data', async (req, res) => {
     try {
         const dataFromMongoDB = await getDataFromMongoDB();
         res.json(dataFromMongoDB);
+    } catch (error) {
+        res.status(500).json({ error: 'Une erreur est survenue.' });
+        console.error('Erreur :', error);
+    }
+});
+
+// Route pour récupérer une donnée spécifique par son ID
+app.get('/api/data/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await getDataByIdFromMongoDB(id);
+        if (!data) {
+            return res.status(404).json({ error: `Aucune donnée avec l'identifiant ${id} n'a été trouvée.` });
+        }
+        res.json(data);
     } catch (error) {
         res.status(500).json({ error: 'Une erreur est survenue.' });
         console.error('Erreur :', error);
