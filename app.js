@@ -29,16 +29,17 @@ async function insertDataIntoMongoDB(data) {
         const database = client.db('dev_app'); // Nom de la DB
         const collection = database.collection('real_time_stib'); // Nom de la collection (table)
 
-        const dataArray = data.map(item => {
-            const { lineid, vehiclepositions } = item;
-            const vehiclePositionsArray = JSON.parse(vehiclepositions);
-            return vehiclePositionsArray.map(position => ({ lineid, ...position }));
-        }).flat();
-
-        // Vérifier si data est un tableau, sinon le convertir en un tableau contenant un seul élément
-        //dataArray = Array.isArray(data) ? data : [data];
-
-        await collection.insertMany(dataArray); // Insertion des données dans la collection MongoDB
+        // Si data est un tableau, insérer chaque élément individuellement [Quand insert directement de la source (STIB-MIVB ici)]
+        if (Array.isArray(data)) {
+            for (const item of data) {
+                const { lineid, vehiclepositions } = item;
+                const vehiclePositionsArray = JSON.parse(vehiclepositions);
+                const dataArray = vehiclePositionsArray.map(position => ({ lineid, ...position }));
+                await collection.insertMany(dataArray);
+            }
+        } else { // Si data est un objet unique, insérer cet objet directement [Quand passe par la REST API de l'app]
+            await collection.insertMany([data]);
+        }
         console.log('Données insérées avec succès dans MongoDB.');
     } catch (error) {
         console.error('Erreur lors de l\'insertion des données dans MongoDB :', error);
@@ -105,7 +106,7 @@ async function deleteDataFromMongoDB(id) {
         const database = client.db('dev_app'); // Nom de la DB
         const collection = database.collection('real_time_stib'); // Nom de la collection (table)
 
-        await collection.deleteOne({ _id: ObjectId(id) });
+        await collection.deleteOne({ _id: new ObjectId(id) });
 
         console.log(`Données avec l'identifiant ${id} supprimées avec succès.`);
     } catch (error) {
@@ -201,6 +202,10 @@ app.get('/:lang/vehicle_positions', async (req, res) => {
         throw error;
     }
 });
+
+//import bodyParser from 'body-parser'
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
 // Ajout des routes pour l'API REST
 // Route pour récupérer toutes les données
