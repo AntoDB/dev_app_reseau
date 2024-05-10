@@ -7,5 +7,11 @@
     "button_2": "See the waiting time at each station for each line in real time",
     "vehicle_positions_title": "Vehicle positions",
     "vehicle_positions_subtitle": "Real Time",
-    "vehicle_positions_description": "STIB API data on the real-time position of vehicles."
+    "vehicle_positions_description": "STIB API data on the real-time position of vehicles.",
+    "admin_dashboard_title": "Dashboard",
+    "admin_dashboard_connexion_subtitle": "Connexion",
+    "admin_dashboard_connexion_username": "Username",
+    "admin_dashboard_connexion_password": "Password",
+    "admin_dashboard_connexion_login": "Login",
+    "admin_dashboard_connexion_failed": "Wrong username or password!"
 }

@@ -7,5 +7,11 @@
     "button_2": "Voir le temps d'attente à chaque station pour chaque ligne en temps réel",
     "vehicle_positions_title": "Position des véhicules",
     "vehicle_positions_subtitle": "Temps Réel",
-    "vehicle_positions_description": "Les données de l'API STIB sur la position en temps réel des véhicules."
+    "vehicle_positions_description": "Les données de l'API STIB sur la position en temps réel des véhicules.",
+    "admin_dashboard_title": "Tableau de bord",
+    "admin_dashboard_connexion_subtitle": "Connexion",
+    "admin_dashboard_connexion_username": "Nom d'utilisateur",
+    "admin_dashboard_connexion_password": "Mot de passe",
+    "admin_dashboard_connexion_login": "Se connecter",
+    "admin_dashboard_connexion_failed": "Mauvais nom d'utilisateur ou de mot de passe !"
 }

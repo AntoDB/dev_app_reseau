@@ -220,11 +220,56 @@ app.get('/:lang/vehicle_positions', async (req, res) => {
     }
 });
 
+/* ----- Routes ADMIN Dashboard ----- */
 //import bodyParser from 'body-parser'
 const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-/* ----- Routes ADMIN Dashboard ----- */
+const session = require('express-session');
+
+// Utilisez un middleware de session
+app.use(session({
+    secret: 'secret-key', // Changez cette clé pour un secret fort
+    resave: false,
+    saveUninitialized: true
+}));
+
+// Route pour afficher la page de connexion [index.ejs]
+app.get('/:lang/admin', (req, res) => {
+    res.render('admin/index', { lang: res.locals.lang });
+});
+
+// Route pour gérer la soumission du formulaire de connexion
+app.post('/:lang/admin/login', (req, res) => {
+    console.log(req.body);
+    const { username, password } = req.body; // Prend les arguments "name" du form
+    // Si les informations d'identification sont correctes, définissez une session pour l'utilisateur
+    if (username === "AntoDB" & password === "Hello") {
+        req.session.loggedIn = true;
+
+        let locales = res.locals.lang;
+        res.redirect('/' + locales.lang +'/admin/vehicle_positions'); // Redirigez vers la page de tableau de bord après la connexion réussie
+    }
+    else {
+        res.render('admin', { invalidPassword: true }); // Renvoyer à la page de connexion avec une indication que le mot de passe est incorrect
+    }
+});
+
+// Middleware pour vérifier l'état de connexion de l'utilisateur sur les autres routes du dossier admin
+app.use('/:lang/admin/*', (req, res, next) => {
+    if (req.session.loggedIn) {
+        next(); // Laissez l'utilisateur accéder à la page s'il est connecté
+    } else {
+        res.redirect('/:lang/admin'); // Redirigez vers la page de connexion s'il n'est pas connecté
+    }
+});
+
+// Route pour afficher le tableau de bord après la connexion réussie
+/*app.get('/admin/dashboard', (req, res) => {
+    res.render('admin/dashboard');
+});*/
+
 app.get('/:lang/admin/vehicle_positions', async (req, res) => {
     try {
         clearDatabase() // Flush la DB avant de réinsérer
