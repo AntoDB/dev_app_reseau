@@ -32,7 +32,8 @@ router.use('/*', (req, res, next) => {
     if (req.session.loggedIn) {
         next(); // Laissez l'utilisateur accéder à la page s'il est connecté
     } else {
-        res.redirect('/:lang/admin'); // Redirigez vers la page de connexion s'il n'est pas connecté
+        let locales = res.locals.lang;
+        res.redirect('/' + locales.lang +'/admin'); // Redirigez vers la page de connexion s'il n'est pas connecté
     }
 });
 
@@ -43,9 +44,9 @@ router.use('/*', (req, res, next) => {
 
 router.get('/vehicle_positions', async (req, res) => {
     try {
-        clearDatabase() // Flush la DB avant de réinsérer
+        /*clearDatabase() // Flush la DB avant de réinsérer
         const dataFromSTIB = await fetchDataFromSTIBAPI();
-        await insertDataIntoMongoDB(dataFromSTIB); // Insère les données dans la DB
+        await insertDataIntoMongoDB(dataFromSTIB); // Insère les données dans la DB*/
         
         // Récupérer les données de MongoDB
         const dataFromMongoDB = await getDataFromMongoDB();
