@@ -1,3 +1,4 @@
+/* ========== Table ========== */
 #admin_col {
     color: #0077c1;
 }
@@ -28,4 +29,9 @@
 
 .admin_options i:last-child:hover, .admin_options svg:last-child:hover {
     color: #dc354580;
+}
+
+/* ========== Modals ========== */
+.modal-dialog {
+    max-width: 98vw;
 }
