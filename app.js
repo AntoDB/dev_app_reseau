@@ -156,7 +156,7 @@ async function clearDatabase() {
     }
 }
 
-/* ==================== Web server ==================== */  
+/* ==================== Web server ==================== */
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -179,7 +179,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes
+/* ----- Routes WEBSITE ----- */
 app.get('/', (req, res) => {
     try {
         res.render('index', { lang: res.locals.lang });
@@ -224,6 +224,28 @@ app.get('/:lang/vehicle_positions', async (req, res) => {
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+/* ----- Routes ADMIN Dashboard ----- */
+app.get('/:lang/admin/vehicle_positions', async (req, res) => {
+    try {
+        clearDatabase() // Flush la DB avant de réinsérer
+        const dataFromSTIB = await fetchDataFromSTIBAPI();
+        await insertDataIntoMongoDB(dataFromSTIB); // Insère les données dans la DB
+        
+        // Récupérer les données de MongoDB
+        const dataFromMongoDB = await getDataFromMongoDB();
+
+        res.render('admin/vehicle_positions', {
+            lang: res.locals.lang, // Transmettre la langue au template EJS
+            mongoData: dataFromMongoDB // Transmettre les données au template EJS
+        });
+    } catch (error) {
+        res.status(500).send('Une erreur est survenue.');
+        console.error('Erreur :', error);
+        throw error;
+    }
+});
+
+/* ----- Routes API ----- */
 // Ajout des routes pour l'API REST
 // Route pour récupérer toutes les données
 app.get('/api/data', async (req, res) => {
