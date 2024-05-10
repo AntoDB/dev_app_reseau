@@ -1,0 +1,31 @@
+#admin_col {
+    color: #0077c1;
+}
+
+.admin_options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.admin_options i, .admin_options svg {
+    width: 24px;
+    height: 24px;
+    transition: color ease 0.5s;
+}
+
+.admin_options svg:first-child {
+    color: #0077c1;
+}
+
+.admin_options svg:last-child {
+    color: var(--red);
+}
+
+.admin_options i:first-child:hover, .admin_options svg:first-child:hover {
+    color: #0077c180;
+}
+
+.admin_options i:last-child:hover, .admin_options svg:last-child:hover {
+    color: #dc354580;
+}
