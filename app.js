@@ -237,7 +237,7 @@ app.use(session({
 
 // Route pour afficher la page de connexion [index.ejs]
 app.get('/:lang/admin', (req, res) => {
-    res.render('admin/index', { lang: res.locals.lang });
+    res.render('admin/index', { lang: res.locals.lang, invalidPassword: false });
 });
 
 // Route pour gérer la soumission du formulaire de connexion
