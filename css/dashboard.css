@@ -1,3 +1,8 @@
+/* ========== General Buttons ========== */
+.general-buttons {
+    padding: 1rem 0;
+}
+
 /* ========== Table ========== */
 #admin_col {
     color: #0077c1;

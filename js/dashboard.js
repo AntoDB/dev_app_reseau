@@ -116,6 +116,8 @@ async function displayEditModal(index,id) {
         //document.getElementById('save_change_btn').addEventListener('click', function() { saveChanges(data._id); });
         current_edit_id = data._id;
 
+        document.getElementById('save_change_btn').style.display = "block";
+
         // Afficher le modal
         $('#editDataModal').modal('show');
     } catch (error) {
@@ -125,22 +127,94 @@ async function displayEditModal(index,id) {
 }
 
 // Fonction pour supprimer les données dans MongoDB
-async function deleteThisDataLine(id) {
+async function deleteThisDataLine(id, alert_flag = true) {
     try {
         const response = await fetch(`/api/data/${id}`, {
             method: 'DELETE'
         });
         if (response.ok) {
             console.log(`Donnée avec l'identifiant ${id} supprimée avec succès.`);
-            alert(`✅ Donnée avec l'identifiant ${id} supprimée avec succès.`); // Prévenir le client (de manière visible) que la donnée à bien été suprimée
+            if (alert_flag) {
+                alert(`✅ Donnée avec l'identifiant ${id} supprimée avec succès.`); // Prévenir le client (de manière visible) que la donnée à bien été suprimée
+            }
             // Rafraîchir la page ou mettre à jour la vue si nécessaire
             window.location.reload(); // Cette ligne actualisera la page après la suppression
         } else {
             console.error(`Erreur lors de la suppression des données avec l'identifiant ${id}.`);
-            alert(`❌ Erreur lors de la suppression des données avec l'identifiant ${id}.`); // Prévenir le client (de manière visible) que la donnée n'a pas su être suprimée
+            if (alert_flag) {
+                alert(`❌ Erreur lors de la suppression des données avec l'identifiant ${id}.`); // Prévenir le client (de manière visible) que la donnée n'a pas su être suprimée
+            }
         }
     } catch (error) {
         console.error('Une erreur est survenue lors de la suppression des données :', error);
-        alert(`❌ Une erreur est survenue lors de la suppression des données :`, error); // Prévenir le client (de manière visible) que la donnée n'a pas su être suprimée
+        if (alert_flag) {
+            alert(`❌ Une erreur est survenue lors de la suppression des données :`, error); // Prévenir le client (de manière visible) que la donnée n'a pas su être suprimée
+        }
+    }
+}
+
+/* ==================== General buttons ==================== */
+/* ----- [function] Insert new data/row from MongoDB ----- */
+// Fonction pour afficher le modal de modification de valeur pour insérer de nouvelle (récupération du modal)
+async function displayInsertModal(edit_id_value) {
+    try {
+        // Mettre à jour les champs du modal par défaut
+        document.getElementById('index').value = "#";
+        document.getElementById('edit_id').value = edit_id_value;
+
+        document.getElementById('save_change_btn').style.display = "none";
+
+        // Afficher le modal
+        $('#editDataModal').modal('show');
+    } catch (error) {
+        console.error('Une erreur est survenue lors de l\'affichage du modal de modification de valeur :', error);
+        // Gérer l'erreur
+    }
+}
+
+/* ----- [function] Delete all data from MongoDB ----- */
+// Fonction pour supprimer toutes les données avec confirmation
+async function deleteAllData() {
+    // Afficher une alerte de confirmation
+    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer toutes les données ?");
+    
+    // Vérifier si l'utilisateur a confirmé la suppression
+    if (confirmation) {
+        // Si l'utilisateur a confirmé, envoyer une demande de suppression à l'API REST
+        /*fetch('/api/data', {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Toutes les données ont été supprimées avec succès.');
+                alert('✅ Toutes les données ont été supprimées avec succès.');
+                // Rafraîchir la page ou mettre à jour la vue si nécessaire
+                window.location.reload(); // Actualiser la page après la suppression
+            } else {
+                throw new Error('Erreur lors de la suppression de toutes les données.');
+            }
+        })
+        .catch(error => {
+            console.error('Une erreur est survenue lors de la suppression de toutes les données :', error);
+            alert('❌ Une erreur est survenue lors de la suppression de toutes les données :', error);
+            // Gérer l'erreur
+        });*/
+
+        try {
+            // Effectuer une requête GET pour obtenir toutes les données
+            const response = await fetch('/api/data');
+            const data = await response.json();
+
+            // Parcourir les données et supprimer chaque élément
+            for (const item of data) {
+                deleteThisDataLine(item._id, false); // Supposons que deleteThisDataLine accepte l'ID de l'élément à supprimer
+            }
+
+            // Actualiser la page ou effectuer d'autres actions après la suppression réussie
+            location.reload(); // Recharger la page après la suppression
+        } catch (error) {
+            console.error('Erreur lors de la suppression des données :', error);
+        }
+        
     }
 }
