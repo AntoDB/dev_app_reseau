@@ -27,7 +27,7 @@ class EasyHTTP {
 const http = new EasyHTTP; 
 // User Data - REPLACE BY YOUR DATA
 const data = { 
-    ineid: "2750",
+    lineid: "2750",
     directionId: "9600",
     distanceFromPoint: 50,
     pointId: "2247"

@@ -8,7 +8,7 @@ async function insertDataIntoMongoDB(data) {
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
 
         // Si data est un tableau, insérer chaque élément individuellement [Quand insert directement de la source (STIB-MIVB ici)]
         if (Array.isArray(data)) {
@@ -39,7 +39,7 @@ async function getDataFromMongoDB() {
         await client.connect();
         
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
 
         // Récupérer toutes les données de la collection
         const data = await collection.find({}).toArray();
@@ -59,7 +59,7 @@ async function getDataByIdFromMongoDB(id) {
     try {
         await client.connect();
         const database = client.db('dev_app');
-        const collection = database.collection('real_time_stib');
+        const collection = database.collection('vehicle_positions_stib');
         const data = await collection.findOne({ _id: new ObjectId(id) });
         return data;
     } catch (error) {
@@ -78,7 +78,7 @@ async function updateDataInMongoDB(id, newData) {
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
 
         await collection.updateOne(
             { _id: new ObjectId(id) }, // Critère de recherche pour l'élément à mettre à jour
@@ -102,7 +102,7 @@ async function deleteDataFromMongoDB(id) {
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
 
         await collection.deleteOne({ _id: new ObjectId(id) });
 
@@ -123,7 +123,7 @@ async function clearDatabase() {
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('real_time_stib'); // Nom de la collection (table)
+        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
 
         // Supprimer tous les documents de la collection
         await collection.deleteMany({});
