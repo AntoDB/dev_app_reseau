@@ -9,7 +9,7 @@ const { insertDataIntoMongoDB, getDataFromMongoDB, getDataByIdFromMongoDB, updat
 // Route pour récupérer toutes les données
 router.get('/api/data', async (req, res) => {
     try {
-        const dataFromMongoDB = await getDataFromMongoDB();
+        const dataFromMongoDB = await getDataFromMongoDB('vehicle_positions_stib');
         res.json(dataFromMongoDB);
     } catch (error) {
         res.status(500).json({ error: 'Une erreur est survenue.' });
@@ -21,7 +21,7 @@ router.get('/api/data', async (req, res) => {
 router.get('/api/data/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await getDataByIdFromMongoDB(id);
+        const data = await getDataByIdFromMongoDB('vehicle_positions_stib', id);
         if (!data) {
             return res.status(404).json({ error: `Aucune donnée avec l'identifiant ${id} n'a été trouvée.` });
         }
@@ -36,7 +36,7 @@ router.get('/api/data/:id', async (req, res) => {
 router.post('/api/data', async (req, res) => {
     try {
         const newData = req.body;
-        await insertDataIntoMongoDB(newData);
+        await insertDataIntoMongoDB('vehicle_positions_stib', newData);
         res.status(201).json({ message: 'Données créées avec succès.' });
     } catch (error) {
         res.status(500).json({ error: 'Une erreur est survenue.' });
@@ -49,7 +49,7 @@ router.put('/api/data/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const newData = req.body;
-        await updateDataInMongoDB(id, newData);
+        await updateDataInMongoDB('vehicle_positions_stib', id, newData);
         res.json({ message: `Données avec l'identifiant ${id} mises à jour avec succès.` });
     } catch (error) {
         res.status(500).json({ error: 'Une erreur est survenue.' });
@@ -61,7 +61,7 @@ router.put('/api/data/:id', async (req, res) => {
 router.delete('/api/data/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        await deleteDataFromMongoDB(id);
+        await deleteDataFromMongoDB('vehicle_positions_stib', id);
         res.json({ message: `Données avec l'identifiant ${id} supprimées avec succès.` });
     } catch (error) {
         res.status(500).json({ error: 'Une erreur est survenue.' });

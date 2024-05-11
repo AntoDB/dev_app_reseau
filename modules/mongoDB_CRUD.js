@@ -2,24 +2,39 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 /* ==================== [function] Insert data into DB ==================== */
 // Insert tout ce qui lui est donné
-async function insertDataIntoMongoDB(data) {
+async function insertDataIntoMongoDB(collectionName, data) {
     const client = new MongoClient('mongodb://localhost:27017/'); // URI (serv + user + login) de connexion MongoDB -> https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connect/
 
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
+        const collection = database.collection(collectionName); // Nom de la collection (table)
 
-        // Si data est un tableau, insérer chaque élément individuellement [Quand insert directement de la source (STIB-MIVB ici)]
-        if (Array.isArray(data)) {
-            for (const item of data) {
-                const { lineid, vehiclepositions } = item;
-                const vehiclePositionsArray = JSON.parse(vehiclepositions);
-                const dataArray = vehiclePositionsArray.map(position => ({ lineid, ...position }));
-                await collection.insertMany(dataArray);
+        if (collectionName === 'vehicle_positions_stib') {
+            // Si data est un tableau, insérer chaque élément individuellement [Quand insert directement de la source (STIB-MIVB ici)]
+            if (Array.isArray(data)) {
+                for (const item of data) {
+                    const { lineid, vehiclepositions } = item;
+                    const vehiclePositionsArray = JSON.parse(vehiclepositions);
+                    const dataArray = vehiclePositionsArray.map(position => ({ lineid, ...position }));
+                    await collection.insertMany(dataArray);
+                }
+            } else { // Si data est un objet unique, insérer cet objet directement [Quand passe par la REST API de l'app]
+                await collection.insertMany([data]);
             }
-        } else { // Si data est un objet unique, insérer cet objet directement [Quand passe par la REST API de l'app]
-            await collection.insertMany([data]);
+        }
+        else {
+            // Si data est un tableau, insérer chaque élément individuellement [Quand insert directement de la source (STIB-MIVB ici)]
+            if (Array.isArray(data)) {
+                for (const item of data) {
+                    const { pointid, lineid, passingtimes } = item;
+                    const passingtimesArray = JSON.parse(passingtimes);
+                    const dataArray = passingtimesArray.map(passingtime => ({ pointid, lineid, ...passingtime }));
+                    await collection.insertMany(dataArray);
+                }
+            } else { // Si data est un objet unique, insérer cet objet directement [Quand passe par la REST API de l'app]
+                await collection.insertMany([data]);
+            }
         }
         console.log('Données insérées avec succès dans MongoDB.');
     } catch (error) {
@@ -32,14 +47,14 @@ async function insertDataIntoMongoDB(data) {
 
 /* ==================== [function] Fetch data from MongoDB ==================== */
 // Récupère TOUTES les données
-async function getDataFromMongoDB() {
+async function getDataFromMongoDB(collectionName) {
     const client = new MongoClient('mongodb://localhost:27017/');
 
     try {
         await client.connect();
         
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
+        const collection = database.collection(collectionName); // Nom de la collection (table)
 
         // Récupérer toutes les données de la collection
         const data = await collection.find({}).toArray();
@@ -54,12 +69,12 @@ async function getDataFromMongoDB() {
 }
 
 // Fonction pour récupérer une donnée par son ID depuis MongoDB
-async function getDataByIdFromMongoDB(id) {
+async function getDataByIdFromMongoDB(collectionName, id) {
     const client = new MongoClient('mongodb://localhost:27017/');
     try {
         await client.connect();
         const database = client.db('dev_app');
-        const collection = database.collection('vehicle_positions_stib');
+        const collection = database.collection(collectionName);
         const data = await collection.findOne({ _id: new ObjectId(id) });
         return data;
     } catch (error) {
@@ -72,13 +87,13 @@ async function getDataByIdFromMongoDB(id) {
 
 /* ==================== [function] Update data in MongoDB ==================== */
 // Mise à jour de LA valeur uniquement spécifié par l'ID
-async function updateDataInMongoDB(id, newData) {
+async function updateDataInMongoDB(collectionName, id, newData) {
     const client = new MongoClient('mongodb://localhost:27017/');
 
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
+        const collection = database.collection(collectionName); // Nom de la collection (table)
 
         await collection.updateOne(
             { _id: new ObjectId(id) }, // Critère de recherche pour l'élément à mettre à jour
@@ -96,13 +111,13 @@ async function updateDataInMongoDB(id, newData) {
 
 /* ==================== [function] Delete data from MongoDB ==================== */
 // Delete de LA valeur uniquement spécifié par l'ID
-async function deleteDataFromMongoDB(id) {
+async function deleteDataFromMongoDB(collectionName, id) {
     const client = new MongoClient('mongodb://localhost:27017/');
 
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
+        const collection = database.collection(collectionName); // Nom de la collection (table)
 
         await collection.deleteOne({ _id: new ObjectId(id) });
 
@@ -117,13 +132,13 @@ async function deleteDataFromMongoDB(id) {
 
 /* ==================== [function] Delete all data from MongoDB ==================== */
 // Supprime TOUTES les données (drop)
-async function clearDatabase() {
+async function clearDatabase(collectionName) {
     const client = new MongoClient('mongodb://localhost:27017/');
 
     try {
         await client.connect();
         const database = client.db('dev_app'); // Nom de la DB
-        const collection = database.collection('vehicle_positions_stib'); // Nom de la collection (table)
+        const collection = database.collection(collectionName); // Nom de la collection (table)
 
         // Supprimer tous les documents de la collection
         await collection.deleteMany({});
