@@ -45,7 +45,7 @@ router.use('/*', (req, res, next) => {
 router.get('/vehicle_positions', async (req, res) => {
     try {
         /*clearDatabase() // Flush la DB avant de réinsérer
-        const dataFromSTIB = await fetchDataFromSTIBAPI();
+        const dataFromSTIB = await fetchDataFromSTIBAPI('https://stibmivb.opendatasoft.com/api/explore/v2.1/catalog/datasets/vehicle-position-rt-production/records?limit=-1&lang=fr');
         await insertDataIntoMongoDB(dataFromSTIB); // Insère les données dans la DB*/
         
         // Récupérer les données de MongoDB
