@@ -19,7 +19,8 @@ app.use(middleware.session);
 // Importation des routes
 const websiteRoutes = require('./routes/websiteRoutes'); // Importer les routes de la partie public du site web depuis le fichier websiteRoutes.js
 const adminRoutes = require('./routes/adminRoutes'); // Importer les routes de la partie admin du site web depuis le fichier adminRoutes.js
-const restApiRoutes = require('./routes/restApiRoutes'); // Importer les routes de la REST API depuis le fichier restApiRoutes.js
+const restApiRoutes_vehicle_positions_stib = require('./routes/adminRoutes'); // Importer les routes de la REST API pour la collection "vehicle_positions_stib" depuis le fichier restApiRoutes_vehicle_positions_stib.js
+const restApiRoutes_waiting_time_stib = require('./routes/restApiRoutes_waiting_time_stib'); // Importer les routes de la REST API pour la collection "waiting_time_stib" depuis le fichier restApiRoutes_waiting_time_stib.js
 
 // Importation de bodyParser depuis 'body-parser' - pour la partie admin (login)
 const bodyParser = require('body-parser');
@@ -29,7 +30,8 @@ app.use(bodyParser.json());
 // Utilisation des routes
 app.use('/', websiteRoutes); // Utiliser les routes website public pour les URL racines
 app.use('/:lang/admin', adminRoutes); // Utiliser les routes admin pour les URL commençant par /:lang/admin
-app.use('/', restApiRoutes); // Utiliser les routes website pour les URL racines [API]
+app.use('/api/vehicle_positions_stib/', restApiRoutes_vehicle_positions_stib); // Utiliser les routes website pour les URL racines [API]
+app.use('/api/waiting_time_stib/', restApiRoutes_waiting_time_stib); // Utiliser les routes website pour les URL racines [API]
 
 // Démarrage du serveur
 const port = process.env.PORT || 3000;
