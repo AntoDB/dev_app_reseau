@@ -1,0 +1,20 @@
+.sidebar, .sidebar .nav-link {
+    color: #495057;
+    background-color: #f0f0f0;
+    border-color: #e8e8e8;
+}
+
+/* Structure */
+.sidebar hr:first-of-type {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Navigation */
+.sidebar .nav-pills .nav-link.active, .sidebar .nav-pills .show>.nav-link {
+    background-color: #0966a5;
+}
+.sidebar .nav-pills .nav-link:hover {
+    background-color: #0077c1;
+    color: white;
+}

@@ -27,6 +27,14 @@ router.post('/login', (req, res) => {
     }
 });
 
+// Route pour la déconnexion
+router.get('/logout', (req, res) => {
+    req.session.destroy(); // Supprimez la session de l'utilisateur
+
+    let locales = res.locals.lang;
+    res.redirect('/' + locales.lang +'/admin'); // Redirigez l'utilisateur vers la page de connexion
+});
+
 // Middleware pour vérifier l'état de connexion de l'utilisateur sur les autres routes du dossier admin
 router.use('/*', (req, res, next) => {
     if (req.session.loggedIn) {

@@ -33,6 +33,11 @@ h2:before {
     content: "";
 }
 
+main {
+    padding-top: 50px;
+    padding-bottom: 5rem;
+}
+
 main p {
     font-size: larger;
 }
@@ -43,7 +48,7 @@ header {
     background: linear-gradient(to right, white 22%, #02538a 22%);
 }
 
-ul {
+header ul {
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
@@ -59,12 +64,12 @@ ul {
     flex-direction: row;
 }
 
-li {
+header li {
     float: left;
     transform: skewX(-5deg);
 }
 
-li a {
+header li a {
     display: block;
     color: white;
     text-align: center;
@@ -74,26 +79,26 @@ li a {
     transition: background-color 0.2s;
 }
 
-li a.active {
+header li a.active {
     background-color: #0966a5;
 }
 
-li a:hover {
+header li a:hover {
     background-color: #0077c1;
     color: white;
 }
 
 /* ----- Éléments personalisés ------ */
-.navigation_title, .header img {
+header .navigation_title, .header img {
     transform: skewX(5deg);
     margin: 0;
 }
 
-li:first-child {
+header li:first-child {
     background-color: white;
 }
 
-li:first-child a:hover {
+header li:first-child a:hover {
     background-color: white;
 }
 
@@ -101,7 +106,7 @@ li:first-child a:hover {
     padding: 0 0.5rem;
 }
 
-.icon-plan:before {
+header .icon-plan:before {
     font-family: stibIcons;
     content:"";
 }
@@ -109,7 +114,6 @@ li:first-child a:hover {
 /* ========== Title division ========== */
 .title_division {
     position: relative;
-    padding-bottom: 50px;
 }
 
 .title_division img {
@@ -122,7 +126,7 @@ li:first-child a:hover {
     position: absolute;
     top: 34%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -30%);
     width: 100%;
 }
 
@@ -130,7 +134,7 @@ li:first-child a:hover {
     position: absolute;
     top: 55%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 45%);
     width: 100%;
 }
 
@@ -170,7 +174,6 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
-    margin-top: 5rem;
 }
 
 /* Social media icons styles (customize as needed) */
