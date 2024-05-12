@@ -37,11 +37,6 @@ router.use('/*', (req, res, next) => {
     }
 });
 
-// Route pour afficher le tableau de bord après la connexion réussie
-/*app.get('/admin/dashboard', (req, res) => {
-    res.render('admin/dashboard');
-});*/
-
 router.get('/vehicle_positions', async (req, res) => {
     try {
         /*clearDatabase('vehicle_positions_stib') // Flush la DB avant de réinsérer
@@ -52,6 +47,26 @@ router.get('/vehicle_positions', async (req, res) => {
         const dataFromMongoDB = await getDataFromMongoDB('vehicle_positions_stib');
 
         res.render('admin/vehicle_positions', {
+            lang: res.locals.lang, // Transmettre la langue au template EJS
+            mongoData: dataFromMongoDB // Transmettre les données au template EJS
+        });
+    } catch (error) {
+        res.status(500).send('Une erreur est survenue.');
+        console.error('Erreur :', error);
+        throw error;
+    }
+});
+
+router.get('/waiting_time', async (req, res) => {
+    try {
+        /*clearDatabase('waiting_time_stib') // Flush la DB avant de réinsérer
+        const dataFromSTIB = await fetchDataFromSTIBAPI('https://stibmivb.opendatasoft.com/api/explore/v2.1/catalog/datasets/vehicle-position-rt-production/records?limit=-1&lang=fr');
+        await insertDataIntoMongoDB('waiting_time_stib', dataFromSTIB); // Insère les données dans la DB*/
+        
+        // Récupérer les données de MongoDB
+        const dataFromMongoDB = await getDataFromMongoDB('waiting_time_stib');
+
+        res.render('admin/waiting_time', {
             lang: res.locals.lang, // Transmettre la langue au template EJS
             mongoData: dataFromMongoDB // Transmettre les données au template EJS
         });

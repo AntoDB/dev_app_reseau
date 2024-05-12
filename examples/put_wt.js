@@ -2,12 +2,12 @@
 class EasyHTTP { 
 
     // Make an HTTP PUT Request 
-    async post(url, data) { 
+    async put(url, data) { 
     
         // Awaiting fetch which contains method, 
         // headers and content-type and body 
         const response = await fetch(url, { 
-        method: 'POST', 
+        method: 'PUT', 
         headers: { 
             'Content-type': 'application/json'
         }, 
@@ -27,15 +27,21 @@ class EasyHTTP {
 const http = new EasyHTTP; 
 // User Data - REPLACE BY YOUR DATA
 const data = { 
-    lineid: "2750",
-    directionId: "9600",
-    distanceFromPoint: 50,
-    pointId: "2247"
+    pointid: "5000",
+    lineid: "50",
+    destination: {
+      "fr": "_MACHELEN",
+      "nl": "MACHELEN_"
+    },
+    expectedArrivalTime: "2000-05-11T22:39:00+02:00",
+    lineId: "50"
 }
+// MongoDB ID to edit - REPLACE BY YOUR ID
+const id = "663fd1d0032c7989b1fd2ca0";
 
 // Update Post 
-http.post( 
-'http://localhost:3000/api/data', 
+http.put( 
+'http://localhost:3000/api/waiting_time_stib/' + id, 
 	data)
 
 // Resolving promise for response data 

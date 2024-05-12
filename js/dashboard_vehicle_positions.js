@@ -4,7 +4,7 @@ let current_edit_id;
 // Fonction pour récupérer les données par leur ID via la REST API
 async function getDataByIdFromAPI(id) {
     try {
-        const response = await fetch(`/api/data/${id}`);
+        const response = await fetch(`/api/vehicle_positions_stib/${id}`);
         if (response.ok) {
             const data = await response.json();
             return data;
@@ -35,7 +35,7 @@ async function insertNewData() {
         };
 
         // Envoyer les nouvelles données via l'API REST
-        const response = await fetch(`/api/data`, {
+        const response = await fetch(`/api/vehicle_positions_stib`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ async function saveChanges() {
         };
 
         // Envoyer les modifications via l'API REST
-        const response = await fetch(`/api/data/${id}`, {
+        const response = await fetch(`/api/vehicle_positions_stib/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ async function displayEditModal(index,id) {
 // Fonction pour supprimer les données dans MongoDB
 async function deleteThisDataLine(id, alert_flag = true) {
     try {
-        const response = await fetch(`/api/data/${id}`, {
+        const response = await fetch(`/api/vehicle_positions_stib/${id}`, {
             method: 'DELETE'
         });
         if (response.ok) {
@@ -181,7 +181,7 @@ async function deleteAllData() {
     // Vérifier si l'utilisateur a confirmé la suppression
     if (confirmation) {
         // Si l'utilisateur a confirmé, envoyer une demande de suppression à l'API REST
-        /*fetch('/api/data', {
+        /*fetch('/api/vehicle_positions_stib', {
             method: 'DELETE'
         })
         .then(response => {
@@ -202,7 +202,7 @@ async function deleteAllData() {
 
         try {
             // Effectuer une requête GET pour obtenir toutes les données
-            const response = await fetch('/api/data');
+            const response = await fetch('/api/vehicle_positions_stib');
             const data = await response.json();
 
             // Parcourir les données et supprimer chaque élément

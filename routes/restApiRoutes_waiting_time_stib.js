@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 });
 
 // Route pour mettre à jour des données existantes
-router.put('/', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const newData = req.body;
@@ -58,7 +58,7 @@ router.put('/', async (req, res) => {
 });
 
 // Route pour supprimer des données existantes
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         await deleteDataFromMongoDB('waiting_time_stib', id);

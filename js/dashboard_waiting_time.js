@@ -4,7 +4,7 @@ let current_edit_id;
 // Fonction pour récupérer les données par leur ID via la REST API
 async function getDataByIdFromAPI(id) {
     try {
-        const response = await fetch(`/api/data/${id}`);
+        const response = await fetch(`/api/waiting_time_stib/${id}`);
         if (response.ok) {
             const data = await response.json();
             return data;
@@ -21,21 +21,34 @@ async function getDataByIdFromAPI(id) {
 async function insertNewData() {
     try {
         // Récupérer les valeurs depuis les champs du modal
-        const line = document.getElementById('edit_line').value;
-        const direction = document.getElementById('edit_direction').value;
-        const distance = document.getElementById('edit_distance').value;
         const point = document.getElementById('edit_point').value;
+        const line = document.getElementById('edit_line').value;
+        const destination_fr = document.getElementById('edit_destination_fr').value;
+        const destination_nl = document.getElementById('edit_destination_nl').value;
+        const expectedArrivalTime = document.getElementById('edit_expectedArrivalTime').value;
+        const message_fr = document.getElementById('edit_message_fr').value;
+        const message_nl = document.getElementById('edit_message_nl').value;
+        const message_en = document.getElementById('edit_message_en').value;
 
-        // Créer un objet contenant les valeurs pour la nouvelle donnée
+        // Créer un objet contenant les nouvelles valeurs
         const newData = {
+            pointid: point,
             lineid: line,
-            directionId: direction,
-            distanceFromPoint: distance,
-            pointId: point
+            destination: {
+                "fr": destination_fr,
+                "nl": destination_nl
+            },
+            expectedArrivalTime: expectedArrivalTime,
+            lineId: line,
+            message: {
+                "en": message_en,
+                "fr": message_fr,
+                "nl": message_nl
+            }
         };
 
         // Envoyer les nouvelles données via l'API REST
-        const response = await fetch(`/api/data`, {
+        const response = await fetch(`/api/waiting_time_stib`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -64,21 +77,34 @@ async function saveChanges() {
     let id = current_edit_id;
     try {
         // Récupérer les nouvelles valeurs depuis les champs du modal
-        const line = document.getElementById('edit_line').value;
-        const direction = document.getElementById('edit_direction').value;
-        const distance = document.getElementById('edit_distance').value;
         const point = document.getElementById('edit_point').value;
+        const line = document.getElementById('edit_line').value;
+        const destination_fr = document.getElementById('edit_destination_fr').value;
+        const destination_nl = document.getElementById('edit_destination_nl').value;
+        const expectedArrivalTime = document.getElementById('edit_expectedArrivalTime').value;
+        const message_fr = document.getElementById('edit_message_fr').value;
+        const message_nl = document.getElementById('edit_message_nl').value;
+        const message_en = document.getElementById('edit_message_en').value;
 
         // Créer un objet contenant les nouvelles valeurs
         const newData = {
+            pointid: point,
             lineid: line,
-            directionId: direction,
-            distanceFromPoint: distance,
-            pointId: point
+            destination: {
+                "fr": destination_fr,
+                "nl": destination_nl
+            },
+            expectedArrivalTime: expectedArrivalTime,
+            lineId: line,
+            message: {
+                "en": message_en,
+                "fr": message_fr,
+                "nl": message_nl
+            }
         };
 
         // Envoyer les modifications via l'API REST
-        const response = await fetch(`/api/data/${id}`, {
+        const response = await fetch(`/api/waiting_time_stib/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -109,10 +135,27 @@ async function displayEditModal(index,id) {
         // Mettre à jour les champs du modal avec les données récupérées
         document.getElementById('index').value = index;
         document.getElementById('edit_id').value = data._id;
+        document.getElementById('edit_point').value = data.pointid;
         document.getElementById('edit_line').value = data.lineid;
-        document.getElementById('edit_direction').value = data.directionId;
-        document.getElementById('edit_distance').value = data.distanceFromPoint;
-        document.getElementById('edit_point').value = data.pointId;
+        if (data.destination) {
+            document.getElementById('edit_destination_fr').value = data.destination.fr;
+            document.getElementById('edit_destination_nl').value = data.destination.nl;
+        }
+        else {
+            document.getElementById('edit_destination_fr').value = "";
+            document.getElementById('edit_destination_nl').value = "";
+        }
+        document.getElementById('edit_expectedArrivalTime').value = data.expectedArrivalTime;
+        if (data.message) {
+            document.getElementById('edit_message_fr').value = data.message.fr;
+            document.getElementById('edit_message_nl').value = data.message.nl;
+            document.getElementById('edit_message_en').value = data.message.en;
+        }
+        else {
+            document.getElementById('edit_message_fr').value = "";
+            document.getElementById('edit_message_nl').value = "";
+            document.getElementById('edit_message_en').value = "";
+        }
         //document.getElementById('save_change_btn').addEventListener('click', function() { saveChanges(data._id); });
         current_edit_id = data._id;
 
@@ -129,7 +172,7 @@ async function displayEditModal(index,id) {
 // Fonction pour supprimer les données dans MongoDB
 async function deleteThisDataLine(id, alert_flag = true) {
     try {
-        const response = await fetch(`/api/data/${id}`, {
+        const response = await fetch(`/api/waiting_time_stib/${id}`, {
             method: 'DELETE'
         });
         if (response.ok) {
@@ -142,7 +185,7 @@ async function deleteThisDataLine(id, alert_flag = true) {
         } else {
             console.error(`Erreur lors de la suppression des données avec l'identifiant ${id}.`);
             if (alert_flag) {
-                alert(`❌ Erreur lors de la suppression des données avec l'identifiant ${id}.`); // Prévenir le client (de manière visible) que la donnée n'a pas su être suprimée
+                alert(`❌ Erreur lors de la suppression des données avec l'identifiant ${id}.`, response); // Prévenir le client (de manière visible) que la donnée n'a pas su être suprimée
             }
         }
     } catch (error) {
@@ -181,7 +224,7 @@ async function deleteAllData() {
     // Vérifier si l'utilisateur a confirmé la suppression
     if (confirmation) {
         // Si l'utilisateur a confirmé, envoyer une demande de suppression à l'API REST
-        /*fetch('/api/data', {
+        /*fetch('/api/waiting_time_stib', {
             method: 'DELETE'
         })
         .then(response => {
@@ -202,7 +245,7 @@ async function deleteAllData() {
 
         try {
             // Effectuer une requête GET pour obtenir toutes les données
-            const response = await fetch('/api/data');
+            const response = await fetch('/api/waiting_time_stib');
             const data = await response.json();
 
             // Parcourir les données et supprimer chaque élément
