@@ -1,4 +1,4 @@
-[fr below/en dessous]
+<a href="https://github.com/AntoDB/dev_app_reseau?tab=readme-ov-file#cours-he2b---isib-d%C3%A9veloppement-dapplication-r%C3%A9seau">[fr below/en dessous]</a>
 # [HE2B - ISIB courses] Network application development
 ## Objectives
 The aim of the course is to create, in 48 hours, a CRUD/REST application using a Mongo database, an APL or an RSS tux, templates (EJS) and Bootstrap (snipets). The steps to follow (in the recommended order):
@@ -14,7 +14,20 @@ The aim of the course is to create, in 48 hours, a CRUD/REST application using a
 * Create a link to delete an item (D from CRUD)
 * Use at least one Bootstrap 'Snipet' in your 'Front'.
 * Refactor the code (in modules)
-![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/project_diagram.png)
+![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/project_diagram_en.png)
+
+## Additions
+* Multilingual option: EN by default, can be changed to FR (change in the URL, for example: http://localhost:3000/fr/vehicle_positions)
+* 2 different APIs: <a href="https://stibmivb.opendatasoft.com/explore/dataset/vehicle-position-rt-production/api/">Vehicle positions</a> & <a href="https://stibmivb.opendatasoft.com/explore/dataset/waiting-time-rt-production/api/?lang=fr&rows=-1">Waiting time</a>
+* Administrator dashboard blocked by password
+User : AntoDB
+Password : Hello
+### Dashboard illustration images
+Login page
+![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/dashboard_login-page_en.png)
+
+Waiting time data page
+![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/dashboard_wt_en.png)
 
 # [Cours HE2B - ISIB] Développement d'application réseau
 ## Objectifs
@@ -31,4 +44,18 @@ Le but des cours est de réaliser, en 48 heures, une application CRUD/REST utili
 * Réaliser un lien d'effacement d’un élément (D de CRUD)
 * Utiliser au moins un « Snipet » Bootstrap dans votre « Front »
 * « Refactorer » le code (en modules)
-![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/project_diagram.png)
+
+![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/project_diagram_fr.png)
+
+## Ajouts
+* Option multilingue : EN par défaut, peut changer en FR (changer dans l'URL, par exemple : http://localhost:3000/fr/vehicle_positions)
+* 2 APIs différentes : <a href="https://stibmivb.opendatasoft.com/explore/dataset/vehicle-position-rt-production/api/">Positions de véhicules</a> & <a href="https://stibmivb.opendatasoft.com/explore/dataset/waiting-time-rt-production/api/?lang=fr&rows=-1">Temps d'attente</a>
+* Tableau de bord administrateur bloqué par un mot de passe
+Utilisateur : AntoDB
+Mot de passe : Hello
+### Images d'illustrations du tableau de bord
+Page de connexion
+![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/dashboard_login-page_en.png)
+
+Page de données de temps d'attente
+![Project diagram](https://raw.githubusercontent.com/AntoDB/dev_app_reseau/main/readme_files/dashboard_wt_en.png)
